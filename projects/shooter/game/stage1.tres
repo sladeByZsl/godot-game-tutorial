@@ -1,0 +1,100 @@
+[gd_resource type="Resource" script_class="StageData" format=3]
+
+[ext_resource type="Script" path="res://game/stage_data.gd" id="1_4xiqx"]
+[ext_resource type="Script" path="res://game/wave_data.gd" id="2_tf8uh"]
+
+[sub_resource type="Resource" id="Resource_hjqtk"]
+script = ExtResource("2_tf8uh")
+label = "侦察机编队"
+hp = 2
+fire_interval = 0.0
+wait_after = 2.0
+
+[sub_resource type="Resource" id="Resource_e7d32"]
+script = ExtResource("2_tf8uh")
+label = "侦察机编队"
+mirror = true
+hp = 2
+fire_interval = 0.0
+
+[sub_resource type="Resource" id="Resource_0ng37"]
+script = ExtResource("2_tf8uh")
+label = "狙击小队"
+kind = 1
+path_name = &"ZigZag"
+count = 4
+gap = 2.2
+speed_scale = 0.8
+hp = 5
+fire = 1
+fire_interval = 1.4
+
+[sub_resource type="Resource" id="Resource_gntdf"]
+script = ExtResource("2_tf8uh")
+label = "回旋编队"
+path_name = &"Loop"
+mirror = true
+count = 8
+gap = 0.8
+speed_scale = 1.2
+hp = 2
+fire_interval = 0.0
+wait_after = 2.5
+
+[sub_resource type="Resource" id="Resource_viiiy"]
+script = ExtResource("2_tf8uh")
+label = "炮台"
+kind = 2
+path_name = &"DropIn"
+mirror = true
+count = 1
+hp = 26
+fire = 3
+fire_interval = 1.1
+hold_at = 0.35
+hold_time = 5.0
+drop_chance = 0.5
+
+[sub_resource type="Resource" id="Resource_cx4ps"]
+script = ExtResource("2_tf8uh")
+label = "扇形射手"
+kind = 1
+mirror = true
+count = 4
+gap = 1.6
+speed_scale = 0.9
+hp = 5
+fire = 2
+fire_interval = 1.6
+
+[sub_resource type="Resource" id="Resource_hivdq"]
+script = ExtResource("2_tf8uh")
+label = "螺旋炮台"
+kind = 2
+path_name = &"DropCenter"
+count = 1
+hp = 40
+fire = 4
+fire_interval = 0.08
+hold_at = 0.3
+hold_time = 6.0
+wait_after = 2.5
+drop_chance = 0.5
+
+[sub_resource type="Resource" id="Resource_jgfsb"]
+script = ExtResource("2_tf8uh")
+label = "最后的冲锋"
+path_name = &"Loop"
+mirror = true
+count = 10
+gap = 0.6
+speed_scale = 1.4
+hp = 2
+fire = 1
+fire_interval = 2.5
+wait_after = 4.0
+
+[resource]
+script = ExtResource("1_4xiqx")
+title = "第一关 · 霓虹航道"
+waves = Array[ExtResource("2_tf8uh")]([SubResource("Resource_hjqtk"), SubResource("Resource_e7d32"), SubResource("Resource_0ng37"), SubResource("Resource_gntdf"), SubResource("Resource_viiiy"), SubResource("Resource_cx4ps"), SubResource("Resource_hivdq"), SubResource("Resource_jgfsb")])

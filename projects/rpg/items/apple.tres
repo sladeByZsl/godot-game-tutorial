@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ItemData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://items/item_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://art/items.png" id="2"]
+
+[sub_resource type="AtlasTexture" id="icon"]
+atlas = ExtResource("2")
+region = Rect2(32, 0, 16, 16)
+
+[resource]
+script = ExtResource("1")
+id = &"apple"
+display_name = "苹果"
+description = "回复一颗心。脆甜。"
+icon = SubResource("icon")
+max_stack = 9
+heal = 2

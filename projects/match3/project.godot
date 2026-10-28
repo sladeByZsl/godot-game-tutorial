@@ -1,0 +1,35 @@
+; Godot 4.7 项目文件。用 Godot 4.7.x 打开本文件夹即可。
+
+config_version=5
+
+[application]
+
+config/name="三消 Match-3"
+config/description="《Godot 4.7 互动教程》配套示例：网格、匹配算法、下落连锁与 Tween 动画。"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+Tuning="*res://tuning.gd"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[input_devices]
+
+pointing/emulate_mouse_from_touch=true
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.07, 0.06, 0.14, 1)
+
+[gui]
+
+theme/custom_font="res://fonts/ui_font.ttf"

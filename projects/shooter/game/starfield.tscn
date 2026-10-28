@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://game/star_layer.gd" id="1"]
+[ext_resource type="Script" path="res://game/nebula.gd" id="2"]
+
+[sub_resource type="CanvasItemMaterial" id="add"]
+blend_mode = 1
+
+[node name="Starfield" type="Node2D"]
+
+[node name="Nebula" type="Parallax2D" parent="."]
+repeat_size = Vector2(0, 540)
+autoscroll = Vector2(0, 6)
+
+[node name="Blobs" type="Node2D" parent="Nebula"]
+material = SubResource("add")
+script = ExtResource("2")
+
+[node name="Far" type="Parallax2D" parent="."]
+repeat_size = Vector2(0, 540)
+autoscroll = Vector2(0, 18)
+
+[node name="Stars" type="Node2D" parent="Far"]
+script = ExtResource("1")
+count = 220
+radius = Vector2(0.5, 1.0)
+color = Color(0.6, 0.7, 1, 0.6)
+seed_value = 11
+
+[node name="Mid" type="Parallax2D" parent="."]
+repeat_size = Vector2(0, 540)
+autoscroll = Vector2(0, 45)
+
+[node name="Stars" type="Node2D" parent="Mid"]
+script = ExtResource("1")
+count = 100
+radius = Vector2(0.8, 1.5)
+color = Color(0.8, 0.85, 1, 0.8)
+seed_value = 22
+
+[node name="Near" type="Parallax2D" parent="."]
+repeat_size = Vector2(0, 540)
+autoscroll = Vector2(0, 160)
+
+[node name="Stars" type="Node2D" parent="Near"]
+script = ExtResource("1")
+count = 22
+radius = Vector2(1.0, 1.6)
+color = Color(0.7, 0.95, 1.2, 0.8)
+streak = 9.0
+seed_value = 33

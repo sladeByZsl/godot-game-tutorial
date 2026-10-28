@@ -1,0 +1,124 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://game/game.gd" id="game"]
+[ext_resource type="Environment" path="res://ui/neon_env.tres" id="env"]
+[ext_resource type="PackedScene" path="res://game/starfield.tscn" id="stars"]
+[ext_resource type="PackedScene" path="res://game/player.tscn" id="player"]
+[ext_resource type="Script" path="res://game/bullet_pool.gd" id="pool"]
+[ext_resource type="PackedScene" path="res://game/player_bullet.tscn" id="pbullet"]
+[ext_resource type="PackedScene" path="res://game/enemy_bullet.tscn" id="ebullet"]
+[ext_resource type="Script" path="res://game/fx.gd" id="fx"]
+[ext_resource type="Script" path="res://game/hitbox_overlay.gd" id="hitbox"]
+[ext_resource type="Script" path="res://game/wave_director.gd" id="director"]
+[ext_resource type="Resource" path="res://game/stage1.tres" id="stage"]
+[ext_resource type="PackedScene" path="res://ui/hud.tscn" id="hud"]
+[ext_resource type="PackedScene" path="res://ui/pause_menu.tscn" id="pause"]
+[ext_resource type="PackedScene" path="res://ui/result.tscn" id="result"]
+
+[sub_resource type="CanvasItemMaterial" id="add"]
+blend_mode = 1
+
+[sub_resource type="Curve2D" id="curve_SwoopLeft"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 160, 130, -30, -120, 0, 120, 0, 260, 330, -40, 200, 0, 0, 640, 60),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="curve_ZigZag"]
+_data = {
+"points": PackedVector2Array(0, 0, 60, 100, 90, -30, -80, -80, -40, 80, 500, 150, 80, -80, -30, 80, 110, 290, -120, -40, 0, 0, 420, 600),
+"tilts": PackedFloat32Array(0, 0, 0, 0)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="curve_Loop"]
+_data = {
+"points": PackedVector2Array(0, 0, 150, 0, -30, 100, -100, 0, 44, 0, 330, 160, 0, -44, 0, 44, 410, 240, 44, 0, -44, 0, 330, 320, 0, 44, 0, -44, 250, 240, -44, 0, 44, 0, 330, 160, -150, -40, 0, 0, 640, 330),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 7
+
+[sub_resource type="Curve2D" id="curve_DropIn"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 60, 150, -40, 0, -60, 0, 0, 150, 160, 120, 60, 0, 0, -60, 40),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[sub_resource type="Curve2D" id="curve_DropCenter"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 60, 300, -50, 0, -60, 0, 0, 300, 150, -150, 80, 0, 0, 660, 30),
+"tilts": PackedFloat32Array(0, 0, 0)
+}
+point_count = 3
+
+[node name="Game" type="Node2D"]
+script = ExtResource("game")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("env")
+
+[node name="Camera" type="Camera2D" parent="."]
+position = Vector2(480, 270)
+
+[node name="Field" type="Node2D" parent="."]
+position = Vector2(180, 0)
+
+[node name="Backdrop" type="ColorRect" parent="Field"]
+offset_right = 600.0
+offset_bottom = 540.0
+color = Color(0.025, 0.03, 0.075, 1)
+
+[node name="Starfield" parent="Field" instance=ExtResource("stars")]
+position = Vector2(-180, 0)
+
+[node name="Paths" type="Node2D" parent="Field"]
+
+[node name="SwoopLeft" type="Path2D" parent="Field/Paths"]
+curve = SubResource("curve_SwoopLeft")
+
+[node name="ZigZag" type="Path2D" parent="Field/Paths"]
+curve = SubResource("curve_ZigZag")
+
+[node name="Loop" type="Path2D" parent="Field/Paths"]
+curve = SubResource("curve_Loop")
+
+[node name="DropIn" type="Path2D" parent="Field/Paths"]
+curve = SubResource("curve_DropIn")
+
+[node name="DropCenter" type="Path2D" parent="Field/Paths"]
+curve = SubResource("curve_DropCenter")
+
+[node name="Pickups" type="Node2D" parent="Field"]
+
+[node name="BossSlot" type="Node2D" parent="Field"]
+
+[node name="PlayerBullets" type="Node2D" parent="Field"]
+script = ExtResource("pool")
+bullet_scene = ExtResource("pbullet")
+
+[node name="Player" parent="Field" instance=ExtResource("player")]
+position = Vector2(300, 460)
+
+[node name="Fx" type="Node2D" parent="Field"]
+material = SubResource("add")
+script = ExtResource("fx")
+
+[node name="EnemyBullets" type="Node2D" parent="Field"]
+script = ExtResource("pool")
+bullet_scene = ExtResource("ebullet")
+
+[node name="HitboxOverlay" type="Node2D" parent="Field"]
+visible = false
+script = ExtResource("hitbox")
+
+[node name="Director" type="Node" parent="."]
+script = ExtResource("director")
+stage = ExtResource("stage")
+
+[node name="Hud" parent="." instance=ExtResource("hud")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("pause")]
+
+[node name="Result" parent="." instance=ExtResource("result")]

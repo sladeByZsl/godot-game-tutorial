@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="Dialogue" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://dialogue/dialogue.gd" id="1"]
+[ext_resource type="Script" path="res://dialogue/dialogue_line.gd" id="2"]
+
+[sub_resource type="Resource" id="line0"]
+script = ExtResource("2")
+speaker = "小禾"
+text = "你好呀！我听说东北边的森林里藏着一个宝箱。"
+
+[sub_resource type="Resource" id="line1"]
+script = ExtResource("2")
+speaker = "小禾"
+text = "不过那里有蝙蝠，它们会飞，连池塘都拦不住。"
+
+[sub_resource type="Resource" id="line2"]
+script = ExtResource("2")
+speaker = "小禾"
+text = "对了，按 I 可以打开背包，用药水回血。"
+
+[resource]
+script = ExtResource("1")
+lines = Array[ExtResource("2")]([SubResource("line0"), SubResource("line1"), SubResource("line2")])

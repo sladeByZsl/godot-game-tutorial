@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://fx/puff.gd" id="1"]
+
+[sub_resource type="Gradient" id="g"]
+colors = PackedColorArray(1, 1, 1, 0.9, 0.85, 0.9, 0.95, 0)
+
+[node name="Puff" type="CPUParticles2D"]
+z_index = 5
+emitting = false
+amount = 14
+lifetime = 0.5
+one_shot = true
+explosiveness = 0.9
+emission_shape = 1
+emission_sphere_radius = 4.0
+direction = Vector2(0, -1)
+spread = 180.0
+gravity = Vector2(0, -20)
+initial_velocity_min = 20.0
+initial_velocity_max = 45.0
+damping_min = 40.0
+damping_max = 60.0
+scale_amount_min = 2.0
+scale_amount_max = 3.5
+color_ramp = SubResource("g")
+script = ExtResource("1")

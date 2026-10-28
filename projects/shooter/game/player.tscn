@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://game/player.gd" id="1"]
+
+[sub_resource type="CircleShape2D" id="hurt"]
+radius = 4.0
+
+[sub_resource type="CircleShape2D" id="magnet"]
+radius = 46.0
+
+[node name="Player" type="Area2D"]
+collision_layer = 1
+collision_mask = 12
+script = ExtResource("1")
+
+[node name="Hurtbox" type="CollisionShape2D" parent="."]
+shape = SubResource("hurt")
+
+[node name="PickupArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="PickupArea"]
+shape = SubResource("magnet")

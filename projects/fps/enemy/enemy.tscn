@@ -1,0 +1,155 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://enemy/enemy.gd" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="mat_armor"]
+albedo_color = Color(0.62, 0.16, 0.14, 1)
+metallic = 0.6
+roughness = 0.4
+
+[sub_resource type="StandardMaterial3D" id="mat_dark"]
+albedo_color = Color(0.13, 0.13, 0.15, 1)
+metallic = 0.5
+roughness = 0.5
+
+[sub_resource type="StandardMaterial3D" id="mat_grey"]
+albedo_color = Color(0.55, 0.56, 0.6, 1)
+metallic = 0.7
+roughness = 0.3
+
+[sub_resource type="StandardMaterial3D" id="mat_visor"]
+albedo_color = Color(1, 0.3, 0.15, 1)
+emission_enabled = true
+emission = Color(1, 0.25, 0.1, 1)
+emission_energy_multiplier = 1.5
+
+[sub_resource type="BoxMesh" id="mesh_LegL"]
+size = Vector3(0.18, 0.8, 0.22)
+
+[sub_resource type="BoxMesh" id="mesh_LegR"]
+size = Vector3(0.18, 0.8, 0.22)
+
+[sub_resource type="BoxMesh" id="mesh_Hips"]
+size = Vector3(0.5, 0.16, 0.3)
+
+[sub_resource type="BoxMesh" id="mesh_Torso"]
+size = Vector3(0.7, 0.58, 0.42)
+
+[sub_resource type="BoxMesh" id="mesh_Chest"]
+size = Vector3(0.46, 0.26, 0.05)
+
+[sub_resource type="BoxMesh" id="mesh_ShoulderL"]
+size = Vector3(0.22, 0.2, 0.32)
+
+[sub_resource type="BoxMesh" id="mesh_ShoulderR"]
+size = Vector3(0.22, 0.2, 0.32)
+
+[sub_resource type="BoxMesh" id="mesh_ArmL"]
+size = Vector3(0.13, 0.42, 0.15)
+
+[sub_resource type="SphereMesh" id="mesh_Head"]
+radius = 0.24
+height = 0.48
+radial_segments = 16
+rings = 8
+
+[sub_resource type="BoxMesh" id="mesh_Gun"]
+size = Vector3(0.13, 0.15, 0.6)
+
+[sub_resource type="BoxMesh" id="mesh_GunTip"]
+size = Vector3(0.07, 0.07, 0.16)
+
+[sub_resource type="BoxMesh" id="mesh_Visor"]
+size = Vector3(0.34, 0.08, 0.08)
+
+[sub_resource type="CapsuleShape3D" id="capsule"]
+radius = 0.42
+height = 1.8
+
+[node name="Enemy" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+position = Vector3(0, 0.9, 0)
+shape = SubResource("capsule")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="."]
+path_desired_distance = 0.6
+target_desired_distance = 0.8
+path_max_distance = 3.0
+avoidance_enabled = true
+height = 1.8
+radius = 0.6
+neighbor_distance = 6.0
+max_neighbors = 6
+max_speed = 4.0
+
+[node name="Body" type="Node3D" parent="."]
+
+[node name="Eye" type="Marker3D" parent="Body"]
+position = Vector3(0, 1.62, -0.25)
+
+[node name="Muzzle" type="Marker3D" parent="Body"]
+position = Vector3(0.46, 1.12, -0.75)
+
+[node name="LegL" type="MeshInstance3D" parent="Body"]
+position = Vector3(-0.15, 0.4, 0)
+mesh = SubResource("mesh_LegL")
+surface_material_override/0 = SubResource("mat_dark")
+
+[node name="LegR" type="MeshInstance3D" parent="Body"]
+position = Vector3(0.15, 0.4, 0)
+mesh = SubResource("mesh_LegR")
+surface_material_override/0 = SubResource("mat_dark")
+
+[node name="Hips" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 0.86, 0)
+mesh = SubResource("mesh_Hips")
+surface_material_override/0 = SubResource("mat_grey")
+
+[node name="Torso" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 1.17, 0)
+mesh = SubResource("mesh_Torso")
+surface_material_override/0 = SubResource("mat_armor")
+
+[node name="Chest" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 1.2, -0.22)
+mesh = SubResource("mesh_Chest")
+surface_material_override/0 = SubResource("mat_dark")
+
+[node name="ShoulderL" type="MeshInstance3D" parent="Body"]
+position = Vector3(-0.46, 1.36, 0)
+mesh = SubResource("mesh_ShoulderL")
+surface_material_override/0 = SubResource("mat_armor")
+
+[node name="ShoulderR" type="MeshInstance3D" parent="Body"]
+position = Vector3(0.46, 1.36, 0)
+mesh = SubResource("mesh_ShoulderR")
+surface_material_override/0 = SubResource("mat_armor")
+
+[node name="ArmL" type="MeshInstance3D" parent="Body"]
+position = Vector3(-0.46, 1.08, 0)
+mesh = SubResource("mesh_ArmL")
+surface_material_override/0 = SubResource("mat_dark")
+
+[node name="Head" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 1.6, 0)
+mesh = SubResource("mesh_Head")
+surface_material_override/0 = SubResource("mat_grey")
+
+[node name="Gun" type="MeshInstance3D" parent="Body"]
+position = Vector3(0.46, 1.1, -0.28)
+mesh = SubResource("mesh_Gun")
+surface_material_override/0 = SubResource("mat_dark")
+
+[node name="GunTip" type="MeshInstance3D" parent="Body"]
+position = Vector3(0.46, 1.12, -0.64)
+mesh = SubResource("mesh_GunTip")
+surface_material_override/0 = SubResource("mat_grey")
+
+[node name="Visor" type="MeshInstance3D" parent="Body"]
+position = Vector3(0, 1.62, -0.2)
+mesh = SubResource("mesh_Visor")
+surface_material_override/0 = SubResource("mat_visor")

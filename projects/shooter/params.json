@@ -1,0 +1,300 @@
+{
+  "title": "太空射击",
+  "order": 5,
+  "summary": "纵版弹幕射击：对象池、碰撞层与遮罩、Path2D 编队、环形/螺旋/自机狙弹幕、粒子，以及完整的标题—暂停—结算流程和程序化音效。",
+  "tags": [
+    "对象池",
+    "Area2D",
+    "碰撞层",
+    "Path2D",
+    "GPUParticles2D",
+    "Theme",
+    "音频总线"
+  ],
+  "controls": "方向键/WASD 移动，空格/J 射击，X/K 炸弹，Shift 低速，Esc 暂停（先在标题界面按 Enter 开始）",
+  "groups": [
+    {
+      "name": "玩家与射击",
+      "params": [
+        {
+          "key": "player.move_speed",
+          "label": "移动速度",
+          "type": "float",
+          "min": 120,
+          "max": 600,
+          "step": 10,
+          "default": 330,
+          "unit": "px/s"
+        },
+        {
+          "key": "player.fire_rate",
+          "label": "射速",
+          "type": "float",
+          "min": 2,
+          "max": 40,
+          "step": 1,
+          "default": 12,
+          "unit": "轮/秒",
+          "desc": "每秒发射几轮；和子弹数量相乘就是每秒新增的子弹数"
+        },
+        {
+          "key": "player.bullet_speed",
+          "label": "子弹速度",
+          "type": "float",
+          "min": 200,
+          "max": 1600,
+          "step": 50,
+          "default": 900,
+          "unit": "px/s"
+        },
+        {
+          "key": "player.spread_angle",
+          "label": "散射角度",
+          "type": "float",
+          "min": 0,
+          "max": 90,
+          "step": 1,
+          "default": 14,
+          "unit": "°"
+        },
+        {
+          "key": "player.bullet_count",
+          "label": "每轮子弹数",
+          "type": "int",
+          "min": 1,
+          "max": 9,
+          "step": 1,
+          "default": 3,
+          "desc": "火力升级（P）还会在此基础上 +1/+2/+3"
+        },
+        {
+          "key": "player.auto_fire",
+          "label": "自动射击",
+          "type": "bool",
+          "default": false
+        },
+        {
+          "key": "player.invincible",
+          "label": "无敌模式",
+          "type": "bool",
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "对象池",
+      "params": [
+        {
+          "key": "pool.use_pool",
+          "label": "使用对象池",
+          "type": "bool",
+          "default": true,
+          "desc": "关掉后每颗子弹都 instantiate() 新建、用完 queue_free()"
+        },
+        {
+          "key": "pool.pool_size",
+          "label": "池大小（每个池）",
+          "type": "int",
+          "min": 0,
+          "max": 1024,
+          "step": 16,
+          "default": 384,
+          "desc": "预先建好的子弹数；不够用时自动扩容"
+        }
+      ]
+    },
+    {
+      "name": "敌人与弹幕",
+      "params": [
+        {
+          "key": "waves.spawn_interval",
+          "label": "生成间隔",
+          "type": "float",
+          "min": 0.1,
+          "max": 1.5,
+          "step": 0.05,
+          "default": 0.35,
+          "unit": "s",
+          "desc": "同一队里相邻两架敌人的出发间隔"
+        },
+        {
+          "key": "waves.enemy_speed",
+          "label": "敌人速度",
+          "type": "float",
+          "min": 40,
+          "max": 400,
+          "step": 10,
+          "default": 150,
+          "unit": "px/s"
+        },
+        {
+          "key": "waves.hp_mult",
+          "label": "敌人血量倍数",
+          "type": "float",
+          "min": 0.2,
+          "max": 5,
+          "step": 0.1,
+          "default": 1.0
+        },
+        {
+          "key": "waves.bullet_density",
+          "label": "弹幕密度",
+          "type": "float",
+          "min": 0.25,
+          "max": 4,
+          "step": 0.25,
+          "default": 1.0,
+          "desc": "环形、螺旋、扇形每次发射的子弹数倍数"
+        },
+        {
+          "key": "waves.bullet_speed",
+          "label": "敌弹速度倍数",
+          "type": "float",
+          "min": 0.3,
+          "max": 2.5,
+          "step": 0.1,
+          "default": 1.0
+        }
+      ]
+    },
+    {
+      "name": "画面",
+      "params": [
+        {
+          "key": "fx.particle_amount",
+          "label": "爆炸粒子数",
+          "type": "int",
+          "min": 0,
+          "max": 300,
+          "step": 4,
+          "default": 40
+        },
+        {
+          "key": "fx.particle_mode",
+          "label": "粒子节点",
+          "type": "enum",
+          "options": [
+            "GPU",
+            "CPU"
+          ],
+          "default": "GPU",
+          "desc": "GPUParticles2D 或 CPUParticles2D（由 convert_from_particles 转换）"
+        },
+        {
+          "key": "fx.shake_strength",
+          "label": "屏幕震动强度",
+          "type": "float",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "default": 6,
+          "unit": "px"
+        },
+        {
+          "key": "fx.glow",
+          "label": "发光（WorldEnvironment）",
+          "type": "bool",
+          "default": true
+        },
+        {
+          "key": "fx.show_hitboxes",
+          "label": "显示碰撞形状",
+          "type": "bool",
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "音频",
+      "params": [
+        {
+          "key": "audio.music_volume",
+          "label": "音乐音量",
+          "type": "float",
+          "min": 0,
+          "max": 1,
+          "step": 0.05,
+          "default": 0.6,
+          "desc": "写到 Music 总线：linear_to_db(值)"
+        },
+        {
+          "key": "audio.sfx_volume",
+          "label": "音效音量",
+          "type": "float",
+          "min": 0,
+          "max": 1,
+          "step": 0.05,
+          "default": 0.8
+        },
+        {
+          "key": "audio.random_pitch",
+          "label": "随机音高幅度",
+          "type": "float",
+          "min": 0,
+          "max": 0.5,
+          "step": 0.01,
+          "default": 0.08,
+          "desc": "每次播放音高随机 ±这个比例"
+        },
+        {
+          "key": "audio.max_polyphony",
+          "label": "最大复音数",
+          "type": "int",
+          "min": 1,
+          "max": 32,
+          "step": 1,
+          "default": 6,
+          "desc": "同一个音效最多同时响几个，超出时掐掉最早的"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "restart",
+      "label": "重新开始"
+    },
+    {
+      "name": "boss",
+      "label": "直接到 Boss"
+    },
+    {
+      "name": "bomb",
+      "label": "清屏炸弹"
+    },
+    {
+      "name": "pause",
+      "label": "暂停 / 继续"
+    },
+    {
+      "name": "stress",
+      "label": "弹幕压力测试（3 秒）"
+    }
+  ],
+  "touch": {
+    "stick": {
+      "left": "move_left",
+      "right": "move_right",
+      "up": "move_up",
+      "down": "move_down"
+    },
+    "buttons": [
+      {
+        "action": "shoot",
+        "label": "射击"
+      },
+      {
+        "action": "bomb",
+        "label": "炸弹"
+      },
+      {
+        "action": "focus",
+        "label": "低速"
+      },
+      {
+        "action": "pause",
+        "label": "暂停"
+      }
+    ]
+  }
+}

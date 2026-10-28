@@ -1,0 +1,255 @@
+{
+  "title": "俯视角 RPG",
+  "order": 3,
+  "summary": "一小块塞尔达风格的地图：TileMapLayer 多层地图和 Y 排序、数据驱动的 NPC 对话与任务、状态机敌人 AI、Hitbox/Hurtbox 战斗、背包和存档。",
+  "tags": [
+    "TileMapLayer",
+    "Y 排序",
+    "Resource",
+    "状态机",
+    "Area2D",
+    "存档"
+  ],
+  "controls": "WASD/方向键 移动，J/空格 攻击，E/回车 交互，I 背包，K 存档，L 读档",
+  "groups": [
+    {
+      "name": "玩家",
+      "params": [
+        {
+          "key": "player.speed",
+          "label": "移动速度",
+          "type": "float",
+          "min": 30,
+          "max": 200,
+          "step": 5,
+          "default": 90,
+          "unit": "px/s",
+          "desc": "1 格 = 16 像素"
+        },
+        {
+          "key": "player.acceleration",
+          "label": "加速度",
+          "type": "float",
+          "min": 100,
+          "max": 4000,
+          "step": 50,
+          "default": 900,
+          "unit": "px/s²",
+          "desc": "调小会有\"冰面\"的感觉"
+        },
+        {
+          "key": "player.friction",
+          "label": "摩擦减速",
+          "type": "float",
+          "min": 100,
+          "max": 4000,
+          "step": 50,
+          "default": 1100,
+          "unit": "px/s²"
+        },
+        {
+          "key": "player.normalize_diagonal",
+          "label": "斜向归一化",
+          "type": "bool",
+          "default": true,
+          "desc": "关掉后斜着走快约 41%，看实时数据里的速度"
+        },
+        {
+          "key": "player.attack_cooldown",
+          "label": "攻击冷却",
+          "type": "float",
+          "min": 0.1,
+          "max": 1.5,
+          "step": 0.05,
+          "default": 0.35,
+          "unit": "s"
+        },
+        {
+          "key": "player.knockback",
+          "label": "击退力",
+          "type": "float",
+          "min": 0,
+          "max": 400,
+          "step": 10,
+          "default": 160,
+          "unit": "px/s",
+          "desc": "剑命中时给敌人的初速度"
+        },
+        {
+          "key": "player.invincible_time",
+          "label": "无敌时间",
+          "type": "float",
+          "min": 0,
+          "max": 2,
+          "step": 0.05,
+          "default": 0.8,
+          "unit": "s",
+          "desc": "受伤后闪烁的这段时间里不会再掉血"
+        }
+      ]
+    },
+    {
+      "name": "敌人",
+      "params": [
+        {
+          "key": "enemy.sense_radius",
+          "label": "感知半径",
+          "type": "float",
+          "min": 16,
+          "max": 160,
+          "step": 4,
+          "default": 64,
+          "unit": "px"
+        },
+        {
+          "key": "enemy.lose_radius",
+          "label": "丢失半径",
+          "type": "float",
+          "min": 32,
+          "max": 240,
+          "step": 4,
+          "default": 112,
+          "unit": "px",
+          "desc": "追击中玩家跑出这个距离就放弃"
+        },
+        {
+          "key": "enemy.chase_speed",
+          "label": "追击速度",
+          "type": "float",
+          "min": 10,
+          "max": 140,
+          "step": 5,
+          "default": 50,
+          "unit": "px/s"
+        },
+        {
+          "key": "enemy.wander_interval",
+          "label": "游荡间隔",
+          "type": "float",
+          "min": 0.3,
+          "max": 6,
+          "step": 0.1,
+          "default": 2,
+          "unit": "s"
+        },
+        {
+          "key": "enemy.damage",
+          "label": "攻击伤害",
+          "type": "int",
+          "min": 0,
+          "max": 6,
+          "step": 1,
+          "default": 1,
+          "desc": "半颗心 = 1"
+        },
+        {
+          "key": "enemy.max_hp",
+          "label": "敌人血量",
+          "type": "int",
+          "min": 1,
+          "max": 10,
+          "step": 1,
+          "default": 3,
+          "desc": "场上已有的敌人按比例调整当前血量"
+        }
+      ]
+    },
+    {
+      "name": "对话与镜头",
+      "params": [
+        {
+          "key": "dialogue.chars_per_sec",
+          "label": "打字速度",
+          "type": "float",
+          "min": 5,
+          "max": 120,
+          "step": 5,
+          "default": 30,
+          "unit": "字/秒"
+        },
+        {
+          "key": "camera.smoothing",
+          "label": "镜头平滑",
+          "type": "float",
+          "min": 0,
+          "max": 20,
+          "step": 0.5,
+          "default": 6,
+          "desc": "0 = 镜头死死贴住玩家"
+        },
+        {
+          "key": "camera.room_mode",
+          "label": "按房间切换镜头",
+          "type": "bool",
+          "default": false,
+          "desc": "地图分成 2×2 个房间，走过边界时镜头滑过去"
+        }
+      ]
+    },
+    {
+      "name": "可视化",
+      "params": [
+        {
+          "key": "debug.show_ranges",
+          "label": "显示感知范围",
+          "type": "bool",
+          "default": false,
+          "desc": "黄圈 = 感知半径（还没发现玩家），红虚线 = 丢失半径（正在追击）"
+        },
+        {
+          "key": "debug.show_states",
+          "label": "显示状态机状态",
+          "type": "bool",
+          "default": false
+        },
+        {
+          "key": "debug.show_boxes",
+          "label": "显示碰撞盒",
+          "type": "bool",
+          "default": false,
+          "desc": "蓝 = 身体，灰 = 障碍，青 = 水，绿 = Hurtbox，红 = Hitbox，黄 = 交互区"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "restart",
+      "label": "重新开始"
+    },
+    {
+      "name": "save",
+      "label": "存档"
+    },
+    {
+      "name": "load",
+      "label": "读档"
+    },
+    {
+      "name": "spawn_enemy",
+      "label": "生成一只敌人"
+    }
+  ],
+  "touch": {
+    "stick": {
+      "left": "move_left",
+      "right": "move_right",
+      "up": "move_up",
+      "down": "move_down"
+    },
+    "buttons": [
+      {
+        "action": "attack",
+        "label": "攻击"
+      },
+      {
+        "action": "interact",
+        "label": "对话"
+      },
+      {
+        "action": "inventory",
+        "label": "背包"
+      }
+    ]
+  }
+}

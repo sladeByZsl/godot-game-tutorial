@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://npc/npc.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://art/villager_frames.tres" id="2"]
+[ext_resource type="Script" path="res://dialogue/dialogue.gd" id="3"]
+[ext_resource type="Resource" path="res://dialogue/data/villager.tres" id="4"]
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(12, 6)
+
+[sub_resource type="CircleShape2D" id="zone"]
+radius = 14.0
+
+[node name="Villager" type="StaticBody2D"]
+script = ExtResource("1")
+npc_name = "小禾"
+dialogues = Array[ExtResource("3")]([ExtResource("4")])
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2")
+animation = &"idle"
+autoplay = "idle"
+offset = Vector2(0, -8)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("body")
+
+[node name="InteractZone" type="Area2D" parent="."]
+collision_layer = 64
+collision_mask = 0
+monitoring = false
+
+[node name="Shape" type="CollisionShape2D" parent="InteractZone"]
+position = Vector2(0, -6)
+shape = SubResource("zone")

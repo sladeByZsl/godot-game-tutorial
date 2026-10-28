@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="Dialogue" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://dialogue/dialogue.gd" id="1"]
+[ext_resource type="Script" path="res://dialogue/dialogue_line.gd" id="2"]
+
+[sub_resource type="Resource" id="line0"]
+script = ExtResource("2")
+speaker = "村长"
+text = "哦，是你啊，年轻人。"
+
+[sub_resource type="Resource" id="line1"]
+script = ExtResource("2")
+speaker = "村长"
+text = "最近南边草地上冒出好多史莱姆，把庄稼都啃坏了。"
+
+[sub_resource type="Resource" id="line2"]
+script = ExtResource("2")
+speaker = "村长"
+text = "你能帮我打倒 {target} 只史莱姆吗？"
+choices = PackedStringArray("没问题，交给我", "我再想想")
+choice_flags = PackedStringArray("quest_active", "")
+
+[resource]
+script = ExtResource("1")
+lines = Array[ExtResource("2")]([SubResource("line0"), SubResource("line1"), SubResource("line2")])

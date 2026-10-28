@@ -1,0 +1,32 @@
+; Godot 4.7 项目文件。用 Godot 4.7.x 打开本文件夹即可。
+
+config_version=5
+
+[application]
+
+config/name="入门示例 Basics"
+config/description="《Godot 4.7 互动教程》配套示例：场景树、信号、生命周期、变换。"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.7", "GL Compatibility")
+
+[autoload]
+
+Tuning="*res://tuning.gd"
+Events="*res://events.gd"
+
+[display]
+
+window/size/viewport_width=960
+window/size/viewport_height=540
+window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"
+renderer/rendering_method.mobile="gl_compatibility"
+environment/defaults/default_clear_color=Color(0.051, 0.071, 0.125, 1)
+
+[gui]
+
+theme/custom_font="res://fonts/ui_font.ttf"

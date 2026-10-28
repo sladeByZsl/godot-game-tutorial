@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://game/bullet.gd" id="1"]
+[ext_resource type="Texture2D" path="res://art/shot_player.png" id="2"]
+
+[sub_resource type="CircleShape2D" id="c"]
+radius = 6.0
+
+[node name="PlayerBullet" type="Area2D"]
+collision_layer = 2
+collision_mask = 4
+monitorable = false
+script = ExtResource("1")
+kind = 5
+
+[node name="Shape" type="CollisionShape2D" parent="."]
+shape = SubResource("c")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2")

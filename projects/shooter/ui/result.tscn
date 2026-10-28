@@ -1,0 +1,137 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/result.gd" id="1"]
+
+[node name="Result" type="CanvasLayer"]
+process_mode = 3
+layer = 11
+script = ExtResource("1")
+
+[node name="Dim" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.01, 0.01, 0.04, 0.7)
+
+[node name="Center" type="CenterContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(440, 0)
+layout_mode = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HeaderLabel"
+theme_override_font_sizes/font_size = 34
+text = "任务完成"
+horizontal_alignment = 1
+
+[node name="NewRecord" type="Label" parent="Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+text = "★ 新纪录 ★"
+horizontal_alignment = 1
+
+[node name="Grid" type="GridContainer" parent="Center/Panel/VBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 40
+theme_override_constants/v_separation = 4
+columns = 2
+
+[node name="ScoreCap" type="Label" parent="Center/Panel/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"HudCaption"
+theme_override_font_sizes/font_size = 16
+text = "分数"
+
+[node name="ScoreValue" type="Label" parent="Center/Panel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudValue"
+text = "0"
+horizontal_alignment = 2
+
+[node name="KillsCap" type="Label" parent="Center/Panel/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"HudCaption"
+theme_override_font_sizes/font_size = 16
+text = "击落"
+
+[node name="KillsValue" type="Label" parent="Center/Panel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudValue"
+text = "0"
+horizontal_alignment = 2
+
+[node name="TimeCap" type="Label" parent="Center/Panel/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"HudCaption"
+theme_override_font_sizes/font_size = 16
+text = "用时"
+
+[node name="TimeValue" type="Label" parent="Center/Panel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudValue"
+text = "0:00"
+horizontal_alignment = 2
+
+[node name="BestCap" type="Label" parent="Center/Panel/VBox/Grid"]
+layout_mode = 2
+theme_type_variation = &"HudCaption"
+theme_override_font_sizes/font_size = 16
+text = "最高分"
+
+[node name="BestValue" type="Label" parent="Center/Panel/VBox/Grid"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_type_variation = &"HudValue"
+text = "0"
+horizontal_alignment = 2
+
+[node name="Sep" type="HSeparator" parent="Center/Panel/VBox"]
+layout_mode = 2
+
+[node name="BoardTitle" type="Label" parent="Center/Panel/VBox"]
+layout_mode = 2
+theme_type_variation = &"HudCaption"
+theme_override_font_sizes/font_size = 16
+text = "排行榜（保存在 user://）"
+
+[node name="Board" type="VBoxContainer" parent="Center/Panel/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="Buttons" type="HBoxContainer" parent="Center/Panel/VBox"]
+layout_mode = 2
+alignment = 1
+theme_override_constants/separation = 16
+
+[node name="Retry" type="Button" parent="Center/Panel/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "再来一次"
+
+[node name="ToTitle" type="Button" parent="Center/Panel/VBox/Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+theme_type_variation = &"DangerButton"
+text = "回到标题"

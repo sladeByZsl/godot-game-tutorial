@@ -1,0 +1,6 @@
+# Godot
+.godot/
+.import/
+export/
+*.translation
+.DS_Store

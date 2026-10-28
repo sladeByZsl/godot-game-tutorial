@@ -1,0 +1,66 @@
+[gd_scene load_steps=12 format=3]
+
+[ext_resource type="Script" path="res://enemies/enemy.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://art/bat_frames.tres" id="2"]
+[ext_resource type="Shader" path="res://fx/flash.gdshader" id="3"]
+[ext_resource type="Script" path="res://combat/hurtbox.gd" id="4"]
+[ext_resource type="Script" path="res://combat/hitbox.gd" id="5"]
+[ext_resource type="Script" path="res://fx/shadow.gd" id="6"]
+
+[sub_resource type="ShaderMaterial" id="flash"]
+resource_local_to_scene = true
+shader = ExtResource("3")
+shader_parameter/flash = 0.0
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(10, 6)
+
+[sub_resource type="RectangleShape2D" id="hurt"]
+size = Vector2(12, 10)
+
+[sub_resource type="RectangleShape2D" id="hit"]
+size = Vector2(10, 8)
+
+[node name="Bat" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 1
+motion_mode = 1
+script = ExtResource("1")
+kind = &"bat"
+speed_scale = 1.35
+flying = true
+
+[node name="Shadow" type="Node2D" parent="."]
+visible = true
+script = ExtResource("6")
+radius = Vector2(4, 1.5)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+material = SubResource("flash")
+sprite_frames = ExtResource("2")
+animation = &"fly"
+offset = Vector2(0, -8)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 16
+script = ExtResource("4")
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -11)
+shape = SubResource("hurt")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+script = ExtResource("5")
+knockback = 140.0
+
+[node name="Shape" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -11)
+shape = SubResource("hit")

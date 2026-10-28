@@ -1,0 +1,51 @@
+{
+  "title": "三消",
+  "order": 4,
+  "summary": "点选或滑动交换宝石：匹配扫描、L/T 形合并、重力压缩、连锁循环和 Tween 动画，逻辑层可以单独测试。",
+  "tags": ["纯数据逻辑层", "await 异步流程", "Tween", "_draw 绘制"],
+  "controls": "点击一颗宝石再点相邻的一颗交换，或直接按住拖向相邻方向（手机上滑动）",
+  "groups": [
+    {
+      "name": "棋盘",
+      "params": [
+        {"key": "game.board_width", "label": "棋盘宽", "type": "int", "min": 5, "max": 10, "step": 1, "default": 8, "unit": "格", "desc": "改了会重建棋盘"},
+        {"key": "game.board_height", "label": "棋盘高", "type": "int", "min": 5, "max": 10, "step": 1, "default": 8, "unit": "格", "desc": "改了会重建棋盘"},
+        {"key": "game.gem_kinds", "label": "宝石种类", "type": "int", "min": 3, "max": 7, "step": 1, "default": 6, "unit": "种", "desc": "种类越少越容易连锁：4 种时满屏都是消除"},
+        {"key": "game.rng_seed", "label": "随机种子", "type": "int", "min": 0, "max": 99, "step": 1, "default": 1, "desc": "同一个种子开局完全相同；0 = 每局随机"},
+        {"key": "game.specials_enabled", "label": "特殊宝石", "type": "bool", "default": true, "desc": "4 连→直线炸弹，L/T→范围炸弹，5 连→同色炸弹"}
+      ]
+    },
+    {
+      "name": "动画",
+      "params": [
+        {"key": "game.swap_time", "label": "交换时长", "type": "float", "min": 0.05, "max": 0.6, "step": 0.01, "default": 0.18, "unit": "s"},
+        {"key": "game.clear_time", "label": "消除时长", "type": "float", "min": 0.05, "max": 0.8, "step": 0.01, "default": 0.24, "unit": "s"},
+        {"key": "game.fall_time", "label": "下落 1 格时长", "type": "float", "min": 0.03, "max": 0.4, "step": 0.01, "default": 0.11, "unit": "s", "desc": "落 n 格用时 = 这个值 × √n"},
+        {"key": "game.fall_ease", "label": "下落缓动", "type": "enum", "options": ["BOUNCE", "BACK", "QUAD", "LINEAR"], "default": "BOUNCE", "desc": "BOUNCE 落地弹跳，BACK 冲过头再回来，QUAD 越落越快，LINEAR 匀速"},
+        {"key": "game.chain_delay", "label": "连锁间隔", "type": "float", "min": 0, "max": 0.8, "step": 0.02, "default": 0.06, "unit": "s", "desc": "调大可以看清每一轮连锁"},
+        {"key": "game.shake_strength", "label": "震屏幅度", "type": "float", "min": 0, "max": 20, "step": 1, "default": 6, "unit": "px"}
+      ]
+    },
+    {
+      "name": "操作",
+      "params": [
+        {"key": "game.drag_threshold", "label": "拖动阈值", "type": "float", "min": 0.1, "max": 1, "step": 0.05, "default": 0.35, "unit": "格", "desc": "拖动超过这么多格宽才算一次滑动"},
+        {"key": "game.hint_delay", "label": "提示延迟", "type": "float", "min": 1, "max": 15, "step": 0.5, "default": 5, "unit": "s"},
+        {"key": "game.auto_play", "label": "自动演示", "type": "bool", "default": false, "desc": "电脑随机挑一个可行步来走"}
+      ]
+    },
+    {
+      "name": "关卡",
+      "params": [
+        {"key": "game.move_limit", "label": "步数限制", "type": "int", "min": 5, "max": 60, "step": 1, "default": 20, "unit": "步"},
+        {"key": "game.target_score", "label": "目标分数", "type": "int", "min": 500, "max": 20000, "step": 100, "default": 3000, "desc": "1 倍一星，1.5 倍两星，2 倍三星"},
+        {"key": "game.show_debug", "label": "显示逻辑网格", "type": "bool", "default": false, "desc": "在每格画出 Board 数组里的值：颜色编号和特殊类型（H/V/B/C）"}
+      ]
+    }
+  ],
+  "actions": [
+    {"name": "restart", "label": "重新开始"},
+    {"name": "shuffle", "label": "洗牌"},
+    {"name": "hint", "label": "显示提示"}
+  ]
+}

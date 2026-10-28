@@ -1,0 +1,302 @@
+{
+  "title": "平台跳跃",
+  "order": 2,
+  "summary": "一个完整的平台跳跃关卡：可调的跳跃手感、角色动画与果汁感、TileMapLayer 地形、会跟随和震动的相机、移动平台、敌人和检查点。",
+  "tags": [
+    "CharacterBody2D",
+    "Tween",
+    "TileMapLayer",
+    "Camera2D",
+    "Parallax2D"
+  ],
+  "controls": "A/D 或 ←/→ 移动，空格/W 跳跃（按住跳得更高）；鼠标左键放地面、右键清除",
+  "groups": [
+    {
+      "name": "水平移动",
+      "params": [
+        {
+          "key": "player.max_speed",
+          "label": "最高速度",
+          "type": "float",
+          "min": 60,
+          "max": 600,
+          "step": 10,
+          "default": 260,
+          "unit": "px/s"
+        },
+        {
+          "key": "player.acceleration",
+          "label": "加速度",
+          "type": "float",
+          "min": 200,
+          "max": 6000,
+          "step": 100,
+          "default": 1800,
+          "unit": "px/s²",
+          "desc": "越大起步越快；太小会感觉在冰面上"
+        },
+        {
+          "key": "player.friction",
+          "label": "摩擦减速",
+          "type": "float",
+          "min": 100,
+          "max": 6000,
+          "step": 100,
+          "default": 2200,
+          "unit": "px/s²",
+          "desc": "松开方向键后每秒减掉多少速度"
+        },
+        {
+          "key": "player.air_control",
+          "label": "空中操控",
+          "type": "float",
+          "min": 0,
+          "max": 1,
+          "step": 0.05,
+          "default": 0.6,
+          "desc": "空中加速度 = 地面加速度 × 这个比例"
+        }
+      ]
+    },
+    {
+      "name": "跳跃",
+      "params": [
+        {
+          "key": "player.jump_height",
+          "label": "跳跃高度",
+          "type": "float",
+          "min": 30,
+          "max": 260,
+          "step": 5,
+          "default": 110,
+          "unit": "px"
+        },
+        {
+          "key": "player.time_to_peak",
+          "label": "到顶时间",
+          "type": "float",
+          "min": 0.15,
+          "max": 0.8,
+          "step": 0.01,
+          "default": 0.38,
+          "unit": "s",
+          "desc": "重力和起跳速度都由高度和时间反推出来"
+        },
+        {
+          "key": "player.fall_multiplier",
+          "label": "下落重力倍数",
+          "type": "float",
+          "min": 1,
+          "max": 4,
+          "step": 0.1,
+          "default": 1.6,
+          "desc": "1 = 上升下落对称；越大落得越快"
+        },
+        {
+          "key": "player.jump_cut",
+          "label": "松键保留速度",
+          "type": "float",
+          "min": 0.1,
+          "max": 1,
+          "step": 0.05,
+          "default": 0.45,
+          "desc": "1 = 关闭可变跳跃高度"
+        },
+        {
+          "key": "player.max_fall_speed",
+          "label": "最大下落速度",
+          "type": "float",
+          "min": 200,
+          "max": 2000,
+          "step": 50,
+          "default": 900,
+          "unit": "px/s"
+        }
+      ]
+    },
+    {
+      "name": "宽容度",
+      "params": [
+        {
+          "key": "player.coyote_time",
+          "label": "土狼时间",
+          "type": "float",
+          "min": 0,
+          "max": 0.3,
+          "step": 0.01,
+          "default": 0.1,
+          "unit": "s",
+          "desc": "走出平台边缘后还能起跳的时间"
+        },
+        {
+          "key": "player.jump_buffer",
+          "label": "跳跃缓冲",
+          "type": "float",
+          "min": 0,
+          "max": 0.3,
+          "step": 0.01,
+          "default": 0.12,
+          "unit": "s",
+          "desc": "落地前提前按跳也算数的时间"
+        }
+      ]
+    },
+    {
+      "name": "果汁感",
+      "params": [
+        {
+          "key": "fx.animation",
+          "label": "角色动画",
+          "type": "bool",
+          "default": true,
+          "desc": "AnimationPlayer：呼吸、跑步、跳跃、下落"
+        },
+        {
+          "key": "fx.squash",
+          "label": "挤压拉伸",
+          "type": "float",
+          "min": 0,
+          "max": 2,
+          "step": 0.1,
+          "default": 1,
+          "desc": "0 = 关；起跳拉长、落地压扁的强度"
+        },
+        {
+          "key": "fx.particles",
+          "label": "粒子",
+          "type": "bool",
+          "default": true,
+          "desc": "落地烟尘、脚步、金币闪光"
+        },
+        {
+          "key": "fx.shake",
+          "label": "屏幕震动",
+          "type": "float",
+          "min": 0,
+          "max": 2,
+          "step": 0.1,
+          "default": 1,
+          "desc": "0 = 关；踩敌人、受伤、重落地时震动"
+        },
+        {
+          "key": "fx.hit_stop",
+          "label": "命中停顿",
+          "type": "float",
+          "min": 0,
+          "max": 0.3,
+          "step": 0.01,
+          "default": 0.06,
+          "unit": "s",
+          "desc": "踩敌人时整个游戏冻结的时间"
+        }
+      ]
+    },
+    {
+      "name": "相机",
+      "params": [
+        {
+          "key": "camera.smoothing_speed",
+          "label": "平滑速度",
+          "type": "float",
+          "min": 0,
+          "max": 20,
+          "step": 0.5,
+          "default": 6,
+          "desc": "0 = 不平滑，画面硬跟；越小越「拖」"
+        },
+        {
+          "key": "camera.look_ahead",
+          "label": "前瞻距离",
+          "type": "float",
+          "min": 0,
+          "max": 240,
+          "step": 8,
+          "default": 64,
+          "unit": "px",
+          "desc": "跑动时镜头往前多看多少"
+        },
+        {
+          "key": "camera.drag_margin_h",
+          "label": "水平死区",
+          "type": "float",
+          "min": 0,
+          "max": 0.8,
+          "step": 0.05,
+          "default": 0.15,
+          "desc": "占半个屏幕宽的比例；0 = 关"
+        },
+        {
+          "key": "camera.drag_margin_v",
+          "label": "竖直死区",
+          "type": "float",
+          "min": 0,
+          "max": 0.8,
+          "step": 0.05,
+          "default": 0.2,
+          "desc": "小跳不晃镜头"
+        },
+        {
+          "key": "camera.use_limits",
+          "label": "限制在关卡内",
+          "type": "bool",
+          "default": true,
+          "desc": "Camera2D 的 limit：不拍到关卡外"
+        },
+        {
+          "key": "camera.zoom_level",
+          "label": "缩放",
+          "type": "float",
+          "min": 0.5,
+          "max": 2,
+          "step": 0.05,
+          "default": 1,
+          "desc": "大于 1 放大，小于 1 看得更远"
+        },
+        {
+          "key": "camera.show_debug",
+          "label": "显示死区和目标点",
+          "type": "bool",
+          "default": false
+        }
+      ]
+    },
+    {
+      "name": "关卡",
+      "params": [
+        {
+          "key": "level.show_collision",
+          "label": "显示碰撞和危险格",
+          "type": "bool",
+          "default": false,
+          "desc": "蓝 = 实心，橙 = 单向平台，红 = 尖刺（自定义数据）"
+        }
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "name": "respawn",
+      "label": "回到检查点"
+    },
+    {
+      "name": "restart",
+      "label": "重新开始"
+    },
+    {
+      "name": "shake",
+      "label": "测试震动"
+    }
+  ],
+  "touch": {
+    "stick": {
+      "left": "move_left",
+      "right": "move_right"
+    },
+    "buttons": [
+      {
+        "action": "jump",
+        "label": "跳"
+      }
+    ]
+  }
+}

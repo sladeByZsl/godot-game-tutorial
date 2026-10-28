@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://lifecycle/lifecycle.gd" id="1"]
+[ext_resource type="Script" path="res://lifecycle/mover.gd" id="2"]
+
+[node name="Lifecycle" type="Node2D"]
+process_mode = 3
+script = ExtResource("1")
+
+[node name="Specimens" type="Node" parent="."]
+process_mode = 1
+
+[node name="Motion" type="Node2D" parent="."]
+process_mode = 1
+
+[node name="ProcessBall" type="Node2D" parent="Motion"]
+position = Vector2(230, 403)
+script = ExtResource("2")
+width = 684.0
+color = Color(1, 0.705882, 0.329412, 1)
+
+[node name="PhysicsBall" type="Node2D" parent="Motion"]
+position = Vector2(230, 425)
+script = ExtResource("2")
+use_physics = true
+width = 684.0
+color = Color(0.717647, 0.611765, 1, 1)

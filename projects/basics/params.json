@@ -1,0 +1,60 @@
+{
+  "title": "入门示例：太阳系 · 信号 · 生命周期",
+  "order": 1,
+  "summary": "三个小场景：用太阳系看父子变换，用信号实验室看谁连接了谁，用生命周期日志看回调顺序。",
+  "tags": ["场景树", "变换继承", "信号", "生命周期"],
+  "controls": "鼠标点击画面里的按钮和宝箱；用「场景」下拉框切换三个小场景",
+  "groups": [
+    {
+      "name": "场景",
+      "params": [
+        {"key": "demo.scene", "label": "当前场景", "type": "enum", "options": ["太阳系", "信号实验室", "生命周期"], "default": "太阳系", "desc": "切换时会用 instantiate() 重新实例化对应的 .tscn"},
+        {"key": "demo.show_tree", "label": "显示运行中的场景树", "type": "bool", "default": false, "desc": "右侧面板实时遍历当前场景的节点树"}
+      ]
+    },
+    {
+      "name": "太阳系",
+      "params": [
+        {"key": "sun.spin_speed", "label": "太阳自转", "type": "float", "min": -120, "max": 120, "step": 5, "default": 20, "unit": "°/s", "desc": "地球是太阳的子节点，所以这也是地球的公转速度"},
+        {"key": "earth.spin_speed", "label": "地球自转", "type": "float", "min": -360, "max": 360, "step": 10, "default": 60, "unit": "°/s", "desc": "月亮跟着地球转：月亮绕地球的速度"},
+        {"key": "moon.spin_speed", "label": "月亮自转", "type": "float", "min": -360, "max": 360, "step": 10, "default": 90, "unit": "°/s", "desc": "月亮没有子节点，只影响它自己的坐标轴"},
+        {"key": "earth.distance", "label": "地球轨道半径", "type": "float", "min": 60, "max": 240, "step": 5, "default": 190, "unit": "px", "desc": "就是 Earth 的本地坐标 position.x"},
+        {"key": "moon.distance", "label": "月亮轨道半径", "type": "float", "min": 24, "max": 110, "step": 2, "default": 58, "unit": "px"},
+        {"key": "sun.body_scale", "label": "太阳缩放", "type": "float", "min": 0.4, "max": 1.6, "step": 0.05, "default": 1.0, "desc": "子节点的大小和距离一起被缩放"},
+        {"key": "earth.detach", "label": "地球 top_level", "type": "bool", "default": false, "desc": "打开后地球不再继承太阳的变换"},
+        {"key": "solar.show_axes", "label": "显示本地坐标轴", "type": "bool", "default": true},
+        {"key": "solar.show_trails", "label": "显示轨迹", "type": "bool", "default": true},
+        {"key": "solar.show_orbits", "label": "显示轨道", "type": "bool", "default": true}
+      ]
+    },
+    {
+      "name": "信号实验室",
+      "params": [
+        {"key": "lab.damage", "label": "攻击伤害", "type": "int", "min": 5, "max": 60, "step": 5, "default": 20},
+        {"key": "lab.heal_amount", "label": "治疗量", "type": "int", "min": 5, "max": 50, "step": 5, "default": 15},
+        {"key": "player.max_health", "label": "最大血量", "type": "int", "min": 20, "max": 200, "step": 10, "default": 100},
+        {"key": "chest.gold", "label": "每箱金币", "type": "int", "min": 1, "max": 50, "step": 1, "default": 10},
+        {"key": "chest.cooldown", "label": "宝箱冷却", "type": "float", "min": 0.2, "max": 3, "step": 0.1, "default": 1.0, "unit": "s", "desc": "open() 里 await 计时器的时长"},
+        {"key": "lab.one_shot_badge", "label": "首次开箱用 ONE_SHOT", "type": "bool", "default": true, "desc": "关掉后，每次开箱都会调用成就的回调"},
+        {"key": "lab.auto_demo", "label": "自动演示", "type": "bool", "default": false, "desc": "每隔一会儿随机点一下按钮或宝箱"},
+        {"key": "viz.pulse_speed", "label": "动画速度", "type": "float", "min": 0.3, "max": 4, "step": 0.1, "default": 1.2, "desc": "只影响可视化；真实的信号是同步的，一瞬间就执行完"},
+        {"key": "viz.show_wires", "label": "显示连线", "type": "bool", "default": true},
+        {"key": "viz.show_labels", "label": "显示连线标签", "type": "bool", "default": true}
+      ]
+    },
+    {
+      "name": "生命周期",
+      "params": [
+        {"key": "life.physics_ticks", "label": "物理帧率", "type": "int", "min": 1, "max": 120, "step": 1, "default": 60, "unit": "次/秒", "desc": "Engine.physics_ticks_per_second"},
+        {"key": "life.time_scale", "label": "时间缩放", "type": "float", "min": 0.1, "max": 3, "step": 0.05, "default": 1.0, "desc": "Engine.time_scale：只缩放 delta，不改变调用次数"},
+        {"key": "life.paused", "label": "暂停场景树", "type": "bool", "default": false, "desc": "get_tree().paused"},
+        {"key": "life.physics_interpolation", "label": "物理插值", "type": "bool", "default": false, "desc": "get_tree().physics_interpolation"},
+        {"key": "life.child_count", "label": "子节点数量", "type": "int", "min": 1, "max": 4, "step": 1, "default": 2, "desc": "改了会重新生成整棵树"},
+        {"key": "life.log_frames", "label": "每帧回调记录次数", "type": "int", "min": 0, "max": 8, "step": 1, "default": 3}
+      ]
+    }
+  ],
+  "actions": [
+    {"name": "reset", "label": "重置当前场景"}
+  ]
+}

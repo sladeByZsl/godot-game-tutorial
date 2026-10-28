@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="WeaponData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://weapons/weapon_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "霰弹枪"
+damage = 11.0
+fire_rate = 1.4
+automatic = false
+mag_size = 6
+reload_time = 2.0
+pellets = 9
+max_range = 40.0
+spread = 4.5
+spread_per_shot = 1.0
+max_spread = 7.0
+spread_recover = 6.0
+move_spread = 1.0
+recoil = 5.0

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="Dialogue" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://dialogue/dialogue.gd" id="1"]
+[ext_resource type="Script" path="res://dialogue/dialogue_line.gd" id="2"]
+
+[sub_resource type="Resource" id="line0"]
+script = ExtResource("2")
+speaker = "村长"
+text = "史莱姆在南边的草地和池塘附近。按 J 或空格挥剑。"
+
+[sub_resource type="Resource" id="line1"]
+script = ExtResource("2")
+speaker = "村长"
+text = "还差 {left} 只，小心别被它们扑到。"
+
+[resource]
+script = ExtResource("1")
+require_flag = "quest_active"
+lines = Array[ExtResource("2")]([SubResource("line0"), SubResource("line1")])

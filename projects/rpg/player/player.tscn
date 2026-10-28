@@ -1,0 +1,99 @@
+[gd_scene load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://player/player.gd" id="1"]
+[ext_resource type="SpriteFrames" path="res://art/player_frames.tres" id="2"]
+[ext_resource type="Script" path="res://fx/shadow.gd" id="3"]
+[ext_resource type="Script" path="res://combat/hurtbox.gd" id="4"]
+[ext_resource type="Script" path="res://combat/hitbox.gd" id="5"]
+[ext_resource type="Texture2D" path="res://art/sword.png" id="6"]
+[ext_resource type="Script" path="res://fx/slash.gd" id="7"]
+[ext_resource type="Script" path="res://player/states/state_machine.gd" id="8"]
+[ext_resource type="Script" path="res://player/states/player_move.gd" id="9"]
+[ext_resource type="Script" path="res://player/states/player_attack.gd" id="10"]
+[ext_resource type="Script" path="res://player/states/player_hurt.gd" id="11"]
+[ext_resource type="Script" path="res://player/states/player_dead.gd" id="12"]
+
+[sub_resource type="RectangleShape2D" id="body"]
+size = Vector2(10, 6)
+
+[sub_resource type="RectangleShape2D" id="hurt"]
+size = Vector2(10, 14)
+
+[sub_resource type="RectangleShape2D" id="sword"]
+size = Vector2(22, 14)
+
+[sub_resource type="CircleShape2D" id="reach"]
+radius = 12.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+motion_mode = 1
+script = ExtResource("1")
+
+[node name="Shadow" type="Node2D" parent="."]
+script = ExtResource("3")
+radius = Vector2(5, 2)
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2")
+animation = &"idle_down"
+offset = Vector2(0, -8)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -3)
+shape = SubResource("body")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 32
+script = ExtResource("4")
+
+[node name="Shape" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2(0, -7)
+shape = SubResource("hurt")
+
+[node name="SwordPivot" type="Node2D" parent="."]
+position = Vector2(0, -6)
+
+[node name="Sword" type="Sprite2D" parent="SwordPivot"]
+visible = false
+texture = ExtResource("6")
+offset = Vector2(0, -10)
+
+[node name="Slash" type="Node2D" parent="SwordPivot"]
+script = ExtResource("7")
+
+[node name="SwordHitbox" type="Area2D" parent="SwordPivot"]
+collision_layer = 16
+collision_mask = 0
+script = ExtResource("5")
+
+[node name="Shape" type="CollisionShape2D" parent="SwordPivot/SwordHitbox"]
+position = Vector2(0, -11)
+shape = SubResource("sword")
+
+[node name="InteractArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 64
+monitorable = false
+
+[node name="Shape" type="CollisionShape2D" parent="InteractArea"]
+position = Vector2(0, -6)
+shape = SubResource("reach")
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("8")
+initial_state = NodePath("Move")
+
+[node name="Move" type="Node" parent="StateMachine"]
+script = ExtResource("9")
+
+[node name="Attack" type="Node" parent="StateMachine"]
+script = ExtResource("10")
+
+[node name="Hurt" type="Node" parent="StateMachine"]
+script = ExtResource("11")
+
+[node name="Dead" type="Node" parent="StateMachine"]
+script = ExtResource("12")

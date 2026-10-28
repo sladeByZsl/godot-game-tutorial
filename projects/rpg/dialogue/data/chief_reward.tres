@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="Dialogue" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://dialogue/dialogue.gd" id="1"]
+[ext_resource type="Script" path="res://dialogue/dialogue_line.gd" id="2"]
+
+[sub_resource type="Resource" id="line0"]
+script = ExtResource("2")
+speaker = "村长"
+text = "你真的做到了！村子总算能安心种地了。"
+
+[sub_resource type="Resource" id="line1"]
+script = ExtResource("2")
+speaker = "村长"
+text = "这是谢礼：30 枚金币，还有祖传的心之容器。"
+
+[sub_resource type="Resource" id="line2"]
+script = ExtResource("2")
+speaker = "系统"
+text = "血量上限 +1 颗心，金币 +30。"
+
+[resource]
+script = ExtResource("1")
+require_flag = "slimes_cleared"
+lines = Array[ExtResource("2")]([SubResource("line0"), SubResource("line1"), SubResource("line2")])
+flag_on_finish = "reward_given"
+reward_coins = 30
+reward_max_hp = 2
