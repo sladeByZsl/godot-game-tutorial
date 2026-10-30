@@ -1,5 +1,12 @@
 # Godot 4.7 互动教程 · 示例游戏工程
 
+[![在线试玩](https://img.shields.io/badge/在线试玩-gametech.byte888.com%2Fgodot-2a78d6)](https://gametech.byte888.com/godot/)
+[![English](https://img.shields.io/badge/English-%2Fgodot%2Fen%2F-2a78d6)](https://gametech.byte888.com/godot/en/)
+![Godot 4.7 · GDScript](https://img.shields.io/badge/Godot-4.7%20%C2%B7%20GDScript-478cbf)
+[![License: MIT](https://img.shields.io/badge/License-MIT-1baf7a)](LICENSE)
+
+> **English** — Six complete sample games for **Godot 4.7 + GDScript**: a top-down RPG (map, dialogue, battle, state machine, save system), match-3, a space shooter (object pooling, collision layers, particles), a first-person shooter (controller, weapons, enemies, navigation), a platformer (jump feel: coyote time, jump buffering) and a basics demo. They accompany an 18-chapter interactive tutorial where every demo is **playable in the browser with live parameter sliders**: **https://gametech.byte888.com/godot/en/**. In-game text and code comments are in Chinese. MIT licensed.
+
 《Godot 4.7 互动教程》的配套工程：从节点、信号、GDScript 讲到 RPG、三消、太空射击、FPS，6 个完整的示例游戏，全部用 **Godot 4.7 + GDScript**。
 
 **👉 在线阅读（示例游戏能在浏览器里直接玩、拖滑块调参数）：https://gametech.byte888.com/godot/**
@@ -32,4 +39,4 @@
 
 代码以 [MIT 许可证](LICENSE) 发布，可自由用于你的项目（含商业项目）。中文字体为 Noto Sans SC 子集，SIL Open Font License（见各工程 `fonts/OFL.txt`）。教程正文与配图版权归作者所有，仅供在线阅读。
 
-作者：麦冬 · 411827633@163.com · [GameTech 技术专栏](https://gametech.byte888.com/) · 另见 [URP 渲染实战](https://github.com/sladeByZsl/urp-render-cookbook)
+作者：麦冬 · 411827633@163.com · [GameTech 技术专栏](https://gametech.byte888.com/) · 另见 [URP 渲染实战](https://github.com/MaedonDev/urp-render-cookbook)
